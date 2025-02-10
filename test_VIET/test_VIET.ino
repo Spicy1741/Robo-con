@@ -1,4 +1,4 @@
-const int relayPin = 6;               // Chân điều khiển relay
+const int relayPin = 5;               // Chân điều khiển relay
 const int delaytime =1000;
 
 void setup()
