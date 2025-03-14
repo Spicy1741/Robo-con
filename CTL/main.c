@@ -17,7 +17,6 @@ Includes    lib
 #include    "hardware/pio.h"
 #include    "pico/cyw43_arch.h"
 
-#include    "blink.pio.h"
 
 
 /*============================================================================================================================================================================
@@ -36,13 +35,15 @@ Sub-Functions
 Main Function
 ============================================================================================================================================================================*/
 
-int main() {
+int main()
+{
     // Khởi tạo chân GPIO cho relay
     gpio_init(RELAY_PIN);                // Khởi tạo chân GPIO16
     gpio_set_dir(RELAY_PIN, GPIO_OUT);   // Đặt chân GPIO16 làm đầu ra
     gpio_put(RELAY_PIN, 0);              // Đảm bảo relay tắt ban đầu
 
-    while (true) {
+    while (true)
+    {
         // Bật relay
         gpio_put(RELAY_PIN, 1);          // Đặt giá trị cao, bật relay
         sleep_ms(5000);                  // Chờ 5 giây
@@ -51,6 +52,4 @@ int main() {
         gpio_put(RELAY_PIN, 0);          // Đặt giá trị thấp, tắt relay
         sleep_ms(5000);                  // Chờ 5 giây
     }
-
-    return 0;
 }
