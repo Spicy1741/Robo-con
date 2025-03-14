@@ -20,56 +20,37 @@ Includes    lib
 #include    "blink.pio.h"
 
 
+/*============================================================================================================================================================================
+Values
+============================================================================================================================================================================*/
+#define RELAY_PIN 16  // Chân GPIO kết nối với transistor
+
+
 
 /*============================================================================================================================================================================
 Sub-Functions
 ============================================================================================================================================================================*/
-void blink_pin_forever(PIO pio, uint sm, uint offset, uint pin, uint freq) {
-    blink_program_init(pio, sm, offset, pin);
-    pio_sm_set_enabled(pio, sm, true);
-
-    printf("Blinking pin %d at %d Hz\n", pin, freq);
-
-    // PIO counter program takes 3 more cycles in total than we pass as
-    // input (wait for n + 1; mov; jmp)
-    pio->txf[sm] = (125000000 / (2 * freq)) - 3;
-}
-
 
 
 /*============================================================================================================================================================================
 Main Function
 ============================================================================================================================================================================*/
 
-int main()
-{
-    stdio_init_all();
+int main() {
+    // Khởi tạo chân GPIO cho relay
+    gpio_init(RELAY_PIN);                // Khởi tạo chân GPIO16
+    gpio_set_dir(RELAY_PIN, GPIO_OUT);   // Đặt chân GPIO16 làm đầu ra
+    gpio_put(RELAY_PIN, 0);              // Đảm bảo relay tắt ban đầu
 
-    // Initialise the Wi-Fi chip
-    if (cyw43_arch_init())
-    {
-        printf("Wi-Fi init failed\n");
-        return -1;
+    while (true) {
+        // Bật relay
+        gpio_put(RELAY_PIN, 1);          // Đặt giá trị cao, bật relay
+        sleep_ms(5000);                  // Chờ 5 giây
+
+        // Tắt relay
+        gpio_put(RELAY_PIN, 0);          // Đặt giá trị thấp, tắt relay
+        sleep_ms(5000);                  // Chờ 5 giây
     }
 
-    // PIO Blinking example
-    PIO pio = pio0;
-    uint offset = pio_add_program(pio, &blink_program);
-    printf("Loaded program at %d\n", offset);
-    
-    #ifdef PICO_DEFAULT_LED_PIN
-    blink_pin_forever(pio, 0, offset, PICO_DEFAULT_LED_PIN, 3);
-    #else
-    blink_pin_forever(pio, 0, offset, 6, 3);
-    #endif
-    // For more pio examples see https://github.com/raspberrypi/pico-examples/tree/master/pio
-
-    // Example to turn on the Pico W LED
-    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
-
-    while (true)
-    {
-        printf("Hello, world!\n");
-        sleep_ms(1000);
-    }
+    return 0;
 }
