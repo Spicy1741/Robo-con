@@ -21,13 +21,28 @@ Includes    Libaries
 
 
 /*============================================================================================================================================================================
-Define      Variable    Value   Description
+Define      Variable        Value       Description
+============================================================================================================================================================================*/
+
+
+
+/*============================================================================================================================================================================
+Type        Variable        Value       Description
 ============================================================================================================================================================================*/
 // Giả dữ liệu truyền vào
-#defune     power       50      // Công xuất động cơ | 0-100
-#defune     direct      1       // Hướng đi: 1 - Forward | 0 - Backward
-#defune     isRight     1       // Hướng quay: 1 - Right | 0 - Left
-#defune     STU         50      // Trạng thái đặc biệt: Boot - 1 | Parking - 2 | unParking - 3.
+float       power           50          // Công xuất động cơ | 0-100
+bool        direct          1           // Hướng đi: 1 - Forward | 0 - Backward
+bool        isRight         1           // Hướng quay: 1 - Right | 0 - Left
+uint16_t    STU             50          // Trạng thái đặc biệt: Boot - 1 | Parking - 2 | unParking - 3.
+
+// Giả dữ liệu cổng truyền ra
+uint8_t     in1_e1          15          // Động cơ 1 - 1
+uint8_t     in2_e2          16          // Động cơ 1 - 2
+uint8_t     in1_e3          17          // Động cơ 1 - 3
+uint8_t     in2_e4          18          // Động cơ 1 - 4
+
+// Giả dữ liệu truyền ra
+
 
 
 
@@ -35,8 +50,10 @@ Define      Variable    Value   Description
 Sub-Functions
 ============================================================================================================================================================================*/
 // Chuyển đổi dữ liệu mức công xuất ra xung
-public uin16_t power_to_time_working()
+public uin16_t power_to_time_working(fload power)
 {
+    power = power * 10;
+    
     return 0;
 }
 
@@ -119,7 +136,14 @@ int main()
 {
     while (true)
     {
-        /* code */
+        switch (STU)
+        {
+        case "1":
+            /* code */
+            break;
+        
+        default:
+            break;
+        }
     }
-    
 }
