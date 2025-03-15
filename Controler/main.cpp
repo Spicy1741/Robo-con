@@ -23,12 +23,92 @@ Includes    Libaries
 /*============================================================================================================================================================================
 Define      Variable    Value   Description
 ============================================================================================================================================================================*/
+// Giả dữ liệu truyền vào
+#defune     power       50      // Công xuất động cơ | 0-100
+#defune     direct      1       // Hướng đi: 1 - Forward | 0 - Backward
+#defune     isRight     1       // Hướng quay: 1 - Right | 0 - Left
+#defune     STU         50      // Trạng thái đặc biệt: Boot - 1 | Parking - 2 | unParking - 3.
 
 
 
 /*============================================================================================================================================================================
 Sub-Functions
 ============================================================================================================================================================================*/
+// Chuyển đổi dữ liệu mức công xuất ra xung
+public uin16_t power_to_time_working()
+{
+    return 0;
+}
+
+// Đơn động cơ
+private void single_1_e1()
+{
+    return 0;
+}
+private void single_1_e2()
+{
+    return 0;
+}
+private void single_1_e3()
+{
+    return 0;
+}
+private void single_1_e4()
+{
+    return 0;
+}
+
+// Động bộ 4 động cơ
+public void sync_4()
+{
+    return 0;
+}
+
+// Động bộ dọc 2 động cơ
+public void sync_2_Vertical_R()
+{
+    return 0;
+}
+public void sync_2_Vertical_L()
+{
+    return 0;
+}
+
+// Động bộ ngang 2 động cơ
+public void sync_2_Horizontal_R()
+{
+    return 0;
+}
+public void sync_2_Horizontal_L()
+{
+    return 0;
+}
+
+// Nghịch đồng bộ 2 - 2 động cơ (Xoay)
+public void circular()
+{
+    return 0;
+}
+
+// Giao thức đặc biệt không qua các hàm xung
+private void boot()
+{
+    return 0;
+}
+private void parking()
+{
+    return 0;
+}
+private void unParking()
+{
+    return 0;
+}
+private void pause()
+{
+    return 0;
+}
+
+
 
 
 
