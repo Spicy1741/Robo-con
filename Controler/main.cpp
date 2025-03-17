@@ -76,23 +76,21 @@ private void single_1_e1(float power, bool direct)
 
 private void single_1_e2( float power, bool direct)
 {
-       if (direct == 1)
-        {
-            // Forward
-            in1_e2 = power_to_time_working(power);
-            in2_e2 = 0;
-        }
-        else
-        {
-            // Backward
-            in1_e2 = 0;
-            in2_e2 = power_to_time_working(power);
-        }
-}
+    if (direct  == 1)
     {
-        return 0;
+    // Forward
+        in1_e2 = power_to_time_working(power);
+        in2_e2 = 0;
     }
-    private void single_1_e3( float power, bool direct)
+    else
+    {
+        // Backward
+        in1_e2 = 0;
+        in2_e2 = power_to_time_working(power);
+    }
+}
+
+private void single_1_e3( float power, bool direct)
     {
         if (direct == 1)
         {
