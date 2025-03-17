@@ -100,10 +100,12 @@ void check_COM()
 }
 
 
-// Chuyển đổi dữ liệu mức công xuất ra xung | 0-100 -> 0-1000
+// 
 int ware_Pulse (double power)
 {
-    
+    // @Nghia: Hàm B (hàm này tạo xung đơn, 1 bước sóng) sẽ tạo ra một xung on-off của một bước sóng với đầu ra là một chân pin x được "truyền" vào sau, số độ dài bước sóng trong một s bằng 1000 - power * 10e4 (us)
+    // in: power - công suất động cơ (0-100) | chân pin cần tạo sóng.
+    // out: xung on-off của một bước sóng với đầu ra là một chân pin x.
     return power;
 }
 
@@ -186,10 +188,12 @@ void parking()
 {
 
 }
+
 void unParking()
 {
 
 }
+
 void pause()
 {
 
