@@ -35,7 +35,7 @@ bool        direct          =1;         // Hướng đi: 1 - Tiến | 0 - Lùi
 bool        isRight         =1;         // Hướng quay: 1 - Phải | 0 - Trái
 uint8_t     STU             =0;         // Trạng thái đặc biệt: 0 - Nomal | 1 - Boot | 2 - Parking | 3 - unParking.
 
-// Giả dữ liệu cổng truyền ra
+// Dữ liệu truyền ra Real-time
 bool        in1_e1          =0;        // Động cơ 1 cổng 1
 bool        in2_e1          =0;        // Động cơ 1 cổng 2
 bool        in1_e2          =0;        // Động cơ 2 cổng 1
