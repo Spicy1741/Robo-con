@@ -30,20 +30,20 @@ Define      Variable        Value       Description
 Type        Variable        Value       Description
 ============================================================================================================================================================================*/
 // Giả dữ liệu truyền vào
-float       power           =50;        // Công xuất động cơ | 0-100
-bool        direct          =1;         // Hướng đi: 1 - Forward | 0 - Backward
-bool        isRight         =1;         // Hướng quay: 1 - Right | 0 - Left
-uint16_t    STU             =50;        // Trạng thái đặc biệt: Boot - 1 | Parking - 2 | unParking - 3.
+float       power           =50;        // Công xuất động cơ (%) | 0-100
+bool        direct          =1;         // Hướng đi: 1 - Tiến | 0 - Lùi
+bool        isRight         =1;         // Hướng quay: 1 - Phải | 0 - Trái
+uint8_t     STU             =0;         // Trạng thái đặc biệt: 0 - Nomal | 1 - Boot | 2 - Parking | 3 - unParking.
 
 // Giả dữ liệu cổng truyền ra
-uint8_t     in1_e1          =15;        // Động cơ 1 - 1
-uint8_t     in2_e1          =16;        // Động cơ 1 - 2
-uint8_t     in1_e2          =17;        // Động cơ 1 - 3
-uint8_t     in2_e2          =18;        // Động cơ 1 - 4
-uint8_t     in1_e3          =19;        // Động cơ 1 - 5
-uint8_t     in2_e3          =20;        // Động cơ 1 - 6
-uint8_t     in1_e4          =21;        // Động cơ 1 - 7
-uint8_t     in2_e4          =22;        // Động cơ 1 - 8
+bool        in1_e1          =0;        // Động cơ 1 cổng 1
+bool        in2_e1          =0;        // Động cơ 1 cổng 2
+bool        in1_e2          =0;        // Động cơ 2 cổng 1
+bool        in2_e2          =0;        // Động cơ 2 cổng 2
+bool        in1_e3          =0;        // Động cơ 3 cổng 1
+bool        in2_e3          =0;        // Động cơ 3 cổng 2
+bool        in1_e4          =0;        // Động cơ 4 cổng 1
+bool        in2_e4          =0;        // Động cơ 4 cổng 2
 
 // Giả dữ liệu truyền ra
 
@@ -76,24 +76,22 @@ Sub-Functions
 // Chuyển đổi dữ liệu mức công xuất ra xung | 0-100 -> 0-1000
 void power_to_time_working(double power, bool direct)
 {
-    double time_working = 0;
-    time_working = power * 10;
-    return time_working;
+    
 }
 
 // Đơn động cơ
 void single_1_e1(double power, bool direct)
 {
-
     if (direct)
     {
-        
+        in1_e1 = power_to_time_working(power);
+        in2_e1 = 0;
     }
     else
     {
-        
+        in1_e1 = 0;
+        in2_e1 = power_to_time_working(power);
     }
-    
 }
 
 void single_1_e2( float power, bool direct)
@@ -128,7 +126,6 @@ void single_1_e3( float power, bool direct)
         }
     }
 
-
 void single_1_e4( float power, bool direct)
     {
         if (direct == 1)
@@ -144,6 +141,7 @@ void single_1_e4( float power, bool direct)
             in2_e4 = power_to_time_working(power);
         }
     }
+
 
 
 // Động bộ 4 động cơ
