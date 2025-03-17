@@ -58,7 +58,19 @@ int main()
     {
         switch (STU)
         {
+        case 0:
+            /* code */
+            break;
+        
         case 1:
+            /* code */
+            break;
+
+        case 2:
+            /* code */
+            break;
+        
+        case 3:
             /* code */
             break;
         
@@ -79,7 +91,10 @@ void power_to_time_working(double power, bool direct)
     
 }
 
-// Đơn động cơ
+
+
+// Đơn động cơ ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Bên phải
 void single_1_e1(double power, bool direct)
 {
     if (direct)
@@ -94,70 +109,63 @@ void single_1_e1(double power, bool direct)
     }
 }
 
-void single_1_e2( float power, bool direct)
+void single_1_e2(double power, bool direct)
 {
-    if (direct  == 1)
+    if (direct)
     {
-    // Forward
         in1_e2 = power_to_time_working(power);
         in2_e2 = 0;
     }
     else
     {
-        // Backward
         in1_e2 = 0;
         in2_e2 = power_to_time_working(power);
     }
 }
 
-void single_1_e3( float power, bool direct)
+void single_1_e3(double power, bool direct)
+{
+    if (direct)
     {
-        if (direct == 1)
-        {
-            // Forward
-            in1_e3 = power_to_time_working(power);
-            in2_e3 = 0;
-        }
-        else
-        {
-            // Backward
-            in1_e3 = 0;
-            in2_e3 = power_to_time_working(power);
-        }
+        
+        in1_e3 = 0;
+        in2_e3 = power_to_time_working(power);
     }
-
-void single_1_e4( float power, bool direct)
+    else
     {
-        if (direct == 1)
-        {
-            // Forward
-            in1_e4 = power_to_time_working(power);
-            in2_e4 = 0;
-        }
-        else
-        {
-            // Backward
-            in1_e4 = 0;
-            in2_e4 = power_to_time_working(power);
-        }
+        in1_e3 = power_to_time_working(power);
+        in2_e3 = 0;
     }
-
-
-
-// Động bộ 4 động cơ
-void sync_4()
-{
 }
 
-// Động bộ dọc 2 động cơ
-void sync_2_Vertical_R()
+void single_1_e4(double power, bool direct)
 {
-}
-void sync_2_Vertical_L()
-{
+    if (direct)
+    {
+        in1_e4 = 0;
+        in2_e4 = power_to_time_working(power);
+    }
+    else
+    {
+        in1_e4 = power_to_time_working(power);
+        in2_e4 = 0;
+    }
 }
 
-// Động bộ ngang 2 động cơ
+
+// Động bộ dọc 2 động cơ -------------------------------------------------------------------------------------------------------------------------------------------------
+void sync_2_Vertical_R(double power, bool direct)
+{
+    single_1_e1(power, direct);
+    single_1_e2(power, direct);
+}
+void sync_2_Vertical_L(double power, bool direct)
+{
+    single_1_e3(power, direct);
+    single_1_e4(power, direct);
+}
+
+// Động bộ ngang 2 động cơ ------------------------------------------------------------------------------------------------------------------------------------------------
 void sync_2_Horizontal_R()
 {
 }
@@ -166,11 +174,22 @@ void sync_2_Horizontal_L()
 }
 
 // Nghịch đồng bộ 2 - 2 động cơ (Xoay)
-void circular()
+void circular(double power, bool isRight)
 {
+    if (isRight)
+    {
+        sync_2_Vertical_R(power, 1);
+        sync_2_Vertical_L(power, 0);
+    }
+    else
+    {
+        sync_2_Vertical_R(power, 0);
+        sync_2_Vertical_L(power, 1);
+    }
 }
 
-// Giao thức đặc biệt không qua các hàm xung
+
+// Giao thức đặc biệt không qua các hàm xung --------------------------------------------------------------------------------------------------------------------------------
 void boot()
 {
 }
