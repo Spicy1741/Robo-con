@@ -57,22 +57,78 @@ public uin16_t power_to_time_working(fload power)
 }
 
 // Đơn động cơ
-private void single_1_e1()
+private void single_1_e1(float power, bool direct)
 {
-    return 0;
+
+    if (direct == 1) // Nếu hướng quay là tiến
+    {
+        // Thiết lập tín hiệu để quay tiến
+        in1_e1 = power_to_time_working(power); // in1 nhận giá trị tương ứng với công suất
+        in2_e1 = 0; // in2 đặt về 0 để đảm bảo chỉ quay 1 chiều
+    }
+    else // Nếu hướng quay là lùi
+    {
+        // Thiết lập tín hiệu để quay lùi
+        in1_e1 = 0;
+        in2_e1 = power_to_time_working(power); // in2 nhận giá trị tương ứng với công suất
+    }
 }
-private void single_1_e2()
+
+private void single_1_e2( float power, bool direct)
 {
-    return 0;
+       if (direct == 1)
+        {
+            // Forward
+            in1_e2 = power_to_time_working(power);
+            in2_e2 = 0;
+        }
+        else
+        {
+            // Backward
+            in1_e2 = 0;
+            in2_e2 = power_to_time_working(power);
+        }
 }
-private void single_1_e3()
-{
-    return 0;
-}
-private void single_1_e4()
-{
-    return 0;
-}
+    {
+        return 0;
+    }
+    private void single_1_e3( float power, bool direct)
+    {
+        if (direct == 1)
+        {
+            // Forward
+            in1_e3 = power_to_time_working(power);
+            in2_e3 = 0;
+        }
+        else
+        {
+            // Backward
+            in1_e3 = 0;
+            in2_e3 = power_to_time_working(power);
+        }
+    }
+    {
+        return 0;
+    }
+
+    private void single_1_e4( float power, bool direct)
+    {
+        if (direct == 1)
+        {
+            // Forward
+            in1_e4 = power_to_time_working(power);
+            in2_e4 = 0;
+        }
+        else
+        {
+            // Backward
+            in1_e4 = 0;
+            in2_e4 = power_to_time_working(power);
+        }
+    }
+    {
+        return 0;
+    }
 
 // Động bộ 4 động cơ
 public void sync_4()
