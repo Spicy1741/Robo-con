@@ -110,7 +110,7 @@ void check_COM()
 
 
 // Hàm tạo xung
-void wave(double power, uint8_t pin)
+void wave(double power)
 {
     // Tần số giao động
     const uint32_t frequency = 50;
