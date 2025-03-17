@@ -24,6 +24,7 @@ Includes    Libaries
 
 
 
+
 /*============================================================================================================================================================================
 Define      Variable        Value       Description
 ============================================================================================================================================================================*/
@@ -68,6 +69,7 @@ Main Function
 int main()
 {
     
+    
 }
 
 
@@ -101,15 +103,38 @@ void check_COM()
 
 
 // Đơn xung
-void ware (double power, uint8_t pin) // có thể cho thêm biến truyền vào
+void wave (double power, uint8_t pin) // có thể cho thêm biến truyền vào
 {
-    // @Nghia: Hàm B (hàm này tạo xung đơn, 1 bước sóng) sẽ tạo ra một xung on-off của một bước sóng với đầu ra là một chân pin x được "truyền" vào sau, số độ dài bước sóng trong một s bằng 1000 - power * 10e4 (us)
+    // @Nghia: Hàm B (hàm này tạo xung đơn, 1 bước sóng) sẽ tạo ra một xung on-off của một bước sóng với đầu ra là một chân pin x được "truyền" vào sau, số độ dài bước sóng trong một s bằng power * 10e4 (us)
     // ví dụ: in: 50% --> 500ms/1000 <=> 500000us, chân PIN 1 --> out: pin = 1 --> sleep(hoặc busy_wait_ cho chính xác) 10ms (tần số là 50HZ <=> 500/50 = 10 - phần này sẽ có số 50 trong code từ đó biến đổi ra) ---> sau 10ms output = 0.
     // in: power - công suất động cơ (0-100) | chân pin cần tạo sóng.
     // out: xung on-off của một bước sóng với đầu ra là một chân pin x.
-}
 
-void the_Wares ()
+    // Define constants for frequency and period
+    const uint32_t frequency = 50;          // Frequency in Hz
+    const uint32_t period_us = 1000000 / frequency;  // Period in microseconds (20ms at 50Hz)
+    // Clamp power to valid range: 0% to 100%
+    if (power < 0) power = 0;
+    if (power > 100) power = 100;
+
+    // Calculate HIGH and LOW times based on power percentage
+    uint32_t high_time_us = (uint32_t)((power / 100.0) * period_us);  // HIGH duration in microseconds
+    uint32_t low_time_us = period_us - high_time_us;                  // LOW duration in microseconds
+
+    // Generate the pulse: HIGH followed by LOW
+    //sleep
+    gpio_put(pin, 1);          // Set pin HIGH
+    sleep_us(high_time_us);    // Sleep for HIGH duration
+    gpio_put(pin, 0);          // Set pin LOW
+    sleep_us(low_time_us);     // Sleep for LOW duration
+    //busy_wait  
+//     gpio_put(pin, 1);          // Set pin HIGH
+//     busy_wait_us_32(high_time_us);  // Wait for HIGH duration
+//     gpio_put(pin, 0);          // Set pin LOW
+//     busy_wait_us_32(low_time_us);   // Wait for LOW duration
+ }
+
+void the_Waves ()
 {
     
 }
