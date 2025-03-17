@@ -30,16 +30,16 @@ Define      Variable        Value       Description
 Type        Variable        Value       Description
 ============================================================================================================================================================================*/
 // Giả dữ liệu truyền vào
-float       power           50          // Công xuất động cơ | 0-100
-bool        direct          1           // Hướng đi: 1 - Forward | 0 - Backward
-bool        isRight         1           // Hướng quay: 1 - Right | 0 - Left
-uint16_t    STU             50          // Trạng thái đặc biệt: Boot - 1 | Parking - 2 | unParking - 3.
+float       power           =50;        // Công xuất động cơ | 0-100
+bool        direct          =1;         // Hướng đi: 1 - Forward | 0 - Backward
+bool        isRight         =1;         // Hướng quay: 1 - Right | 0 - Left
+uint16_t    STU             =50;        // Trạng thái đặc biệt: Boot - 1 | Parking - 2 | unParking - 3.
 
 // Giả dữ liệu cổng truyền ra
-uint8_t     in1_e1          15          // Động cơ 1 - 1
-uint8_t     in2_e2          16          // Động cơ 1 - 2
-uint8_t     in1_e3          17          // Động cơ 1 - 3
-uint8_t     in2_e4          18          // Động cơ 1 - 4
+uint8_t     in1_e1          =15;        // Động cơ 1 - 1
+uint8_t     in2_e2          =16;        // Động cơ 1 - 2
+uint8_t     in1_e3          =17;        // Động cơ 1 - 3
+uint8_t     in2_e4          =18;        // Động cơ 1 - 4
 
 // Giả dữ liệu truyền ra
 
@@ -50,14 +50,14 @@ uint8_t     in2_e4          18          // Động cơ 1 - 4
 Sub-Functions
 ============================================================================================================================================================================*/
 // Chuyển đổi dữ liệu mức công xuất ra xung | 0-100 -> 0-1000
-public uin16_t power_to_time_working(fload power)
+uint16_t power_to_time_working(fload power)
 {
     power = power * 10;
     return power;
 }
 
 // Đơn động cơ
-private void single_1_e1(float power, bool direct)
+void single_1_e1(float power, bool direct)
 {
 
     if (direct == 1) // Nếu hướng quay là tiến
@@ -74,7 +74,7 @@ private void single_1_e1(float power, bool direct)
     }
 }
 
-private void single_1_e2( float power, bool direct)
+void single_1_e2( float power, bool direct)
 {
     if (direct  == 1)
     {
@@ -90,7 +90,7 @@ private void single_1_e2( float power, bool direct)
     }
 }
 
-private void single_1_e3( float power, bool direct)
+void single_1_e3( float power, bool direct)
     {
         if (direct == 1)
         {
@@ -109,7 +109,7 @@ private void single_1_e3( float power, bool direct)
         return 0;
     }
 
-    private void single_1_e4( float power, bool direct)
+void single_1_e4( float power, bool direct)
     {
         if (direct == 1)
         {
@@ -129,54 +129,43 @@ private void single_1_e3( float power, bool direct)
     }
 
 // Động bộ 4 động cơ
-public void sync_4()
+void sync_4()
 {
-    single_1_e1();
-    return 0;
 }
 
 // Động bộ dọc 2 động cơ
-public void sync_2_Vertical_R()
+void sync_2_Vertical_R()
 {
-    return 0;
 }
-public void sync_2_Vertical_L()
+void sync_2_Vertical_L()
 {
-    return 0;
 }
 
 // Động bộ ngang 2 động cơ
-public void sync_2_Horizontal_R()
+void sync_2_Horizontal_R()
 {
-    return 0;
 }
-public void sync_2_Horizontal_L()
+void sync_2_Horizontal_L()
 {
-    return 0;
 }
 
 // Nghịch đồng bộ 2 - 2 động cơ (Xoay)
-public void circular()
+void circular()
 {
-    return 0;
 }
 
 // Giao thức đặc biệt không qua các hàm xung
-private void boot()
+void boot()
 {
-    return 0;
 }
-private void parking()
+void parking()
 {
-    return 0;
 }
-private void unParking()
+void unParking()
 {
-    return 0;
 }
-private void pause()
+void pause()
 {
-    return 0;
 }
 
 
