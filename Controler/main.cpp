@@ -37,12 +37,36 @@ uint16_t    STU             =50;        // Trạng thái đặc biệt: Boot - 1
 
 // Giả dữ liệu cổng truyền ra
 uint8_t     in1_e1          =15;        // Động cơ 1 - 1
-uint8_t     in2_e2          =16;        // Động cơ 1 - 2
-uint8_t     in1_e3          =17;        // Động cơ 1 - 3
-uint8_t     in2_e4          =18;        // Động cơ 1 - 4
+uint8_t     in2_e1          =16;        // Động cơ 1 - 2
+uint8_t     in1_e2          =17;        // Động cơ 1 - 3
+uint8_t     in2_e2          =18;        // Động cơ 1 - 4
+uint8_t     in1_e3          =19;        // Động cơ 1 - 5
+uint8_t     in2_e3          =20;        // Động cơ 1 - 6
+uint8_t     in1_e4          =21;        // Động cơ 1 - 7
+uint8_t     in2_e4          =22;        // Động cơ 1 - 8
 
 // Giả dữ liệu truyền ra
 
+
+
+/*============================================================================================================================================================================
+Main Function
+============================================================================================================================================================================*/
+int main()
+{
+    while (true)
+    {
+        switch (STU)
+        {
+        case 1:
+            /* code */
+            break;
+        
+        default:
+            break;
+        }
+    }
+}
 
 
 
@@ -50,28 +74,26 @@ uint8_t     in2_e4          =18;        // Động cơ 1 - 4
 Sub-Functions
 ============================================================================================================================================================================*/
 // Chuyển đổi dữ liệu mức công xuất ra xung | 0-100 -> 0-1000
-uint16_t power_to_time_working(fload power)
+void power_to_time_working(double power, bool direct)
 {
-    power = power * 10;
-    return power;
+    double time_working = 0;
+    time_working = power * 10;
+    return time_working;
 }
 
 // Đơn động cơ
-void single_1_e1(float power, bool direct)
+void single_1_e1(double power, bool direct)
 {
 
-    if (direct == 1) // Nếu hướng quay là tiến
+    if (direct)
     {
-        // Thiết lập tín hiệu để quay tiến
-        in1_e1 = power_to_time_working(power); // in1 nhận giá trị tương ứng với công suất
-        in2_e1 = 0; // in2 đặt về 0 để đảm bảo chỉ quay 1 chiều
+        
     }
-    else // Nếu hướng quay là lùi
+    else
     {
-        // Thiết lập tín hiệu để quay lùi
-        in1_e1 = 0;
-        in2_e1 = power_to_time_working(power); // in2 nhận giá trị tương ứng với công suất
+        
     }
+    
 }
 
 void single_1_e2( float power, bool direct)
@@ -105,9 +127,7 @@ void single_1_e3( float power, bool direct)
             in2_e3 = power_to_time_working(power);
         }
     }
-    {
-        return 0;
-    }
+
 
 void single_1_e4( float power, bool direct)
     {
@@ -124,9 +144,7 @@ void single_1_e4( float power, bool direct)
             in2_e4 = power_to_time_working(power);
         }
     }
-    {
-        return 0;
-    }
+
 
 // Động bộ 4 động cơ
 void sync_4()
@@ -171,22 +189,3 @@ void pause()
 
 
 
-
-/*============================================================================================================================================================================
-Main Function
-============================================================================================================================================================================*/
-int main()
-{
-    while (true)
-    {
-        switch (STU)
-        {
-        case "1":
-            /* code */
-            break;
-        
-        default:
-            break;
-        }
-    }
-}
