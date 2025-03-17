@@ -1,5 +1,7 @@
 /*============================================================================================================================================================================
 Information
+
+Tech        Version         Description
 ==============================================================================================================================================================================
 SDK: 		v2.1.1
 Toolchain:	14.2Rel1
@@ -10,6 +12,8 @@ CMake:		v4.0.0-rc4
 
 
 /*============================================================================================================================================================================
+Libary or sub-files
+
 Includes    Libaries
 ============================================================================================================================================================================*/
 #include    <stdio.h>
@@ -27,25 +31,34 @@ Define      Variable        Value       Description
 
 
 /*============================================================================================================================================================================
+Biến cơ bản
+
 Type        Variable        Value       Description
 ============================================================================================================================================================================*/
 // Giả dữ liệu truyền vào
-float       power           =50;        // Công xuất động cơ (%) | 0-100
+double      power           =50;        // Công xuất động cơ (%) | 0-100
 bool        direct          =1;         // Hướng đi: 1 - Tiến | 0 - Lùi
 bool        isRight         =1;         // Hướng quay: 1 - Phải | 0 - Trái
 uint8_t     STU             =0;         // Trạng thái đặc biệt: 0 - Nomal | 1 - Boot | 2 - Parking | 3 - unParking.
 
-// Dữ liệu truyền ra Real-time
-bool        in1_e1          =0;        // Động cơ 1 cổng 1
-bool        in2_e1          =0;        // Động cơ 1 cổng 2
-bool        in1_e2          =0;        // Động cơ 2 cổng 1
-bool        in2_e2          =0;        // Động cơ 2 cổng 2
-bool        in1_e3          =0;        // Động cơ 3 cổng 1
-bool        in2_e3          =0;        // Động cơ 3 cổng 2
-bool        in1_e4          =0;        // Động cơ 4 cổng 1
-bool        in2_e4          =0;        // Động cơ 4 cổng 2
-
 // Giả dữ liệu truyền ra
+
+
+
+/*============================================================================================================================================================================
+Biến đa luồng
+
+Volatile    Type        Variable        Value       Description
+============================================================================================================================================================================*/
+// Dữ liệu truyền ra Real-time
+volatile    int8_t      in1_e1          =0;        // Động cơ 1 cổng 1
+volatile    int8_t      in2_e1          =0;        // Động cơ 1 cổng 2
+volatile    int8_t      in1_e2          =0;        // Động cơ 2 cổng 1
+volatile    int8_t      in2_e2          =0;        // Động cơ 2 cổng 2
+volatile    int8_t      in1_e3          =0;        // Động cơ 3 cổng 1
+volatile    int8_t      in2_e3          =0;        // Động cơ 3 cổng 2
+volatile    int8_t      in1_e4          =0;        // Động cơ 4 cổng 1
+volatile    int8_t      in2_e4          =0;        // Động cơ 4 cổng 2
 
 
 
@@ -62,7 +75,7 @@ int main()
 /*============================================================================================================================================================================
 Sub-Functions
 ============================================================================================================================================================================*/
-// Check COM -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Check COM
 void check_COM()
 {
     if (uart_is_readable(uart0))
@@ -87,75 +100,44 @@ void check_COM()
 }
 
 
-// Chuyển đổi dữ liệu mức công xuất ra xung | 0-100 -> 0-1000 ----------------------------------------------------------------------------------------------------------------
-void power_to_time_working(double power, bool direct)
+// Chuyển đổi dữ liệu mức công xuất ra xung | 0-100 -> 0-1000
+int ware_Pulse (double power)
 {
     
+    return power;
 }
 
 
 
-// Đơn động cơ ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Đơn động cơ
 // Bên phải
 void single_1_e1(double power, bool direct)
 {
-    if (direct)
-    {
-        in1_e1 = power_to_time_working(power);
-        in2_e1 = 0;
-    }
-    else
-    {
-        in1_e1 = 0;
-        in2_e1 = power_to_time_working(power);
-    }
+    in1_e1 = direct ? 0 : power;
+    in2_e1 = direct ? power : 0;
 }
 
 void single_1_e2(double power, bool direct)
 {
-    if (direct)
-    {
-        in1_e2 = power_to_time_working(power);
-        in2_e2 = 0;
-    }
-    else
-    {
-        in1_e2 = 0;
-        in2_e2 = power_to_time_working(power);
-    }
+    in1_e2 = direct ? 0 : power;
+    in2_e2 = direct ? power : 0;
 }
 
+// Bên trái
 void single_1_e3(double power, bool direct)
 {
-    if (direct)
-    {
-        
-        in1_e3 = 0;
-        in2_e3 = power_to_time_working(power);
-    }
-    else
-    {
-        in1_e3 = power_to_time_working(power);
-        in2_e3 = 0;
-    }
+    in1_e3 = direct ? power : 0;
+    in2_e3 = direct ? 0 : power;
 }
 
 void single_1_e4(double power, bool direct)
 {
-    if (direct)
-    {
-        in1_e4 = 0;
-        in2_e4 = power_to_time_working(power);
-    }
-    else
-    {
-        in1_e4 = power_to_time_working(power);
-        in2_e4 = 0;
-    }
+    in1_e4 = direct ? power : 0;
+    in2_e4 = direct ? 0 : power;
 }
 
 
-// Động bộ dọc 2 động cơ -----------------------------------------------------------------------------------------------------------------------------------------------------
+// Động bộ dọc 2 động cơ
 void sync_2_Vertical_R(double power, bool direct)
 {
     single_1_e1(power, direct);
@@ -168,7 +150,8 @@ void sync_2_Vertical_L(double power, bool direct)
     single_1_e4(power, direct);
 }
 
-// Động bộ ngang 2 động cơ ---------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Động bộ ngang 2 động cơ
 void sync_2_Horizontal_R()
 {
 }
@@ -177,34 +160,39 @@ void sync_2_Horizontal_L()
 {
 }
 
-// Nghịch đồng bộ 2 - 2 động cơ (Xoay) ---------------------------------------------------------------------------------------------------------------------------------------
+
+// Nghịch đồng bộ 2 - 2 động cơ (Xoay)
 void circular(double power, bool isRight)
 {
-    if (isRight)
-    {
-        sync_2_Vertical_R(power, 1);
-        sync_2_Vertical_L(power, 0);
-    }
-    else
-    {
-        sync_2_Vertical_R(power, 0);
-        sync_2_Vertical_L(power, 1);
-    }
+    sync_2_Vertical_R(power, isRight ? 1 : 0);
+    sync_2_Vertical_L(power, isRight ? 0 : 1);
+}
+
+// Đồng bộ 4
+void sync_4(double power, bool direct)
+{
+    sync_2_Vertical_R(power, direct);
+    sync_2_Vertical_L(power, direct);
 }
 
 
 // Giao thức đặc biệt không qua các hàm xung --------------------------------------------------------------------------------------------------------------------------------
 void boot()
 {
+
 }
+
 void parking()
 {
+
 }
 void unParking()
 {
+
 }
 void pause()
 {
+
 }
 
 
