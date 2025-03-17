@@ -43,7 +43,14 @@ bool        isRight         =1;         // Hướng quay: 1 - Phải | 0 - Trái
 uint8_t     STU             =0;         // Trạng thái đặc biệt: 0 - Nomal | 1 - Boot | 2 - Parking | 3 - unParking.
 
 // Giả dữ liệu truyền ra
-
+bool        out1_e1         =0;         // Động cơ 1 cổng 1
+bool        out2_e1         =0;         // Động cơ 1 cổng 2
+bool        out1_e2         =0;         // Động cơ 2 cổng 1
+bool        out2_e2         =0;         // Động cơ 2 cổng 2
+bool        out1_e3         =0;         // Động cơ 3 cổng 1
+bool        out2_e3         =0;         // Động cơ 3 cổng 2
+bool        out1_e4         =0;         // Động cơ 4 cổng 1
+bool        out2_e4         =0;         // Động cơ 4 cổng 2
 
 
 /*============================================================================================================================================================================
@@ -52,14 +59,14 @@ Biến đa luồng
 Volatile    Type        Variable        Value       Description
 ============================================================================================================================================================================*/
 // Dữ liệu truyền ra Real-time
-volatile    int8_t      in1_e1          =0;        // Động cơ 1 cổng 1
-volatile    int8_t      in2_e1          =0;        // Động cơ 1 cổng 2
-volatile    int8_t      in1_e2          =0;        // Động cơ 2 cổng 1
-volatile    int8_t      in2_e2          =0;        // Động cơ 2 cổng 2
-volatile    int8_t      in1_e3          =0;        // Động cơ 3 cổng 1
-volatile    int8_t      in2_e3          =0;        // Động cơ 3 cổng 2
-volatile    int8_t      in1_e4          =0;        // Động cơ 4 cổng 1
-volatile    int8_t      in2_e4          =0;        // Động cơ 4 cổng 2
+volatile    int8_t      in1_e1          =0;        // Trạng thái động cơ 1 cổng 1
+volatile    int8_t      in2_e1          =0;        // Trạng thái động cơ 1 cổng 2
+volatile    int8_t      in1_e2          =0;        // Trạng thái động cơ 2 cổng 1
+volatile    int8_t      in2_e2          =0;        // Trạng thái động cơ 2 cổng 2
+volatile    int8_t      in1_e3          =0;        // Trạng thái động cơ 3 cổng 1
+volatile    int8_t      in2_e3          =0;        // Trạng thái động cơ 3 cổng 2
+volatile    int8_t      in1_e4          =0;        // Trạng thái động cơ 4 cổng 1
+volatile    int8_t      in2_e4          =0;        // Trạng thái động cơ 4 cổng 2
 
 
 
@@ -102,41 +109,33 @@ void check_COM()
 }
 
 
-// Đơn xung
-void wave (double power, uint8_t pin) // có thể cho thêm biến truyền vào
+// Hàm tạo xung
+void wave(double power, uint8_t pin)
 {
-    // @Nghia: Hàm B (hàm này tạo xung đơn, 1 bước sóng) sẽ tạo ra một xung on-off của một bước sóng với đầu ra là một chân pin x được "truyền" vào sau, số độ dài bước sóng trong một s bằng power * 10e4 (us)
-    // ví dụ: in: 50% --> 500ms/1000 <=> 500000us, chân PIN 1 --> out: pin = 1 --> sleep(hoặc busy_wait_ cho chính xác) 10ms (tần số là 50HZ <=> 500/50 = 10 - phần này sẽ có số 50 trong code từ đó biến đổi ra) ---> sau 10ms output = 0.
-    // in: power - công suất động cơ (0-100) | chân pin cần tạo sóng.
-    // out: xung on-off của một bước sóng với đầu ra là một chân pin x.
+    // Tần số giao động
+    const uint32_t frequency = 50;
 
-    // Define constants for frequency and period
-    const uint32_t frequency = 50;          // Frequency in Hz
-    const uint32_t period_us = 1000000 / frequency;  // Period in microseconds (20ms at 50Hz)
-    // Clamp power to valid range: 0% to 100%
-    if (power < 0) power = 0;
-    if (power > 100) power = 100;
+    in1_e1 ? out1_e1 = 1 : out1_e1 = 0;
+    in2_e1 ? out2_e1 = 1 : out2_e1 = 0;
+    in1_e2 ? out1_e2 = 1 : out1_e2 = 0;
+    in2_e2 ? out2_e2 = 1 : out2_e2 = 0;
+    in1_e3 ? out1_e3 = 1 : out1_e3 = 0;
+    in2_e3 ? out2_e3 = 1 : out2_e3 = 0;
+    in1_e4 ? out1_e4 = 1 : out1_e4 = 0;
+    in2_e4 ? out2_e4 = 1 : out2_e4 = 0;
 
-    // Calculate HIGH and LOW times based on power percentage
-    uint32_t high_time_us = (uint32_t)((power / 100.0) * period_us);  // HIGH duration in microseconds
-    uint32_t low_time_us = period_us - high_time_us;                  // LOW duration in microseconds
+    sleep_us((uint32_t)((power * 10000) / frequency));
+    // busy_wait_us_32((uint32_t)((power * 10000) / frequency));
 
-    // Generate the pulse: HIGH followed by LOW
-    //sleep
-    gpio_put(pin, 1);          // Set pin HIGH
-    sleep_us(high_time_us);    // Sleep for HIGH duration
-    gpio_put(pin, 0);          // Set pin LOW
-    sleep_us(low_time_us);     // Sleep for LOW duration
-    //busy_wait  
-//     gpio_put(pin, 1);          // Set pin HIGH
-//     busy_wait_us_32(high_time_us);  // Wait for HIGH duration
-//     gpio_put(pin, 0);          // Set pin LOW
-//     busy_wait_us_32(low_time_us);   // Wait for LOW duration
- }
+    out1_e1 = 0;
+    out2_e1 = 0;
+    out1_e2 = 0;
+    out2_e2 = 0;
+    out1_e3 = 0;
+    out2_e3 = 0;
+    out1_e4 = 0;
+    out2_e4 = 0;
 
-void the_Waves ()
-{
-    
 }
 
 
