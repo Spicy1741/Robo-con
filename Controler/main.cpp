@@ -128,11 +128,11 @@ void wave (double power, uint8_t pin) // có thể cho thêm biến truyền và
     gpio_put(pin, 0);          // Set pin LOW
     sleep_us(low_time_us);     // Sleep for LOW duration
     //busy_wait  
-    gpio_put(pin, 1);          // Set pin HIGH
-    busy_wait_us_32(high_time_us);  // Wait for HIGH duration
-    gpio_put(pin, 0);          // Set pin LOW
-    busy_wait_us_32(low_time_us);   // Wait for LOW duration
-}
+//     gpio_put(pin, 1);          // Set pin HIGH
+//     busy_wait_us_32(high_time_us);  // Wait for HIGH duration
+//     gpio_put(pin, 0);          // Set pin LOW
+//     busy_wait_us_32(low_time_us);   // Wait for LOW duration
+ }
 
 void the_Waves ()
 {
