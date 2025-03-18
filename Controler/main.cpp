@@ -114,7 +114,7 @@ void check_COM()
 
 void check_Engine()
 {
-    //@Nghĩa: Viết thêm case dựa vào Description của biến STU. Và Dev phần gọi hàm bên trong các Case đó luôn.
+    //@Nghĩa: Viết thêm case dựa vào Description của biến STU. Và Dev phần gọi hàm bên trong các Case đó luôn. Hàm này sẽ được chạy liên tục vậy nên ô thêm lệnh delay (1000 - power) như lần trước.
     switch (STU)
     {
     case 1:
