@@ -108,6 +108,28 @@ void check_COM()
     }
 }
 
+void check_Engine()
+{
+    switch (STU)
+    {
+    case 1:
+        /* code */
+        break;
+    case 2:
+        /* code */
+        break;
+    case 3:
+        /* code */
+        break;
+    case 4:
+        /* code */
+        break;
+
+    default:
+        break;
+    }
+}
+
 
 // Hàm tạo xung
 void wave(double power)
@@ -135,7 +157,6 @@ void wave(double power)
     out2_e3 = 0;
     out1_e4 = 0;
     out2_e4 = 0;
-
 }
 
 
