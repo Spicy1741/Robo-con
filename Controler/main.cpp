@@ -21,12 +21,17 @@ Includes    Libaries
 #include    "hardware/pio.h"
 #include    "pico/cyw43_arch.h"
 #include    "hardware/uart.h"
+#include    "pico/multicore.h"
 
 
 
 /*============================================================================================================================================================================
 Define      Variable        Value       Description
 ============================================================================================================================================================================*/
+#define     UART_ID         uart0       // Chọn UART0
+#define     TX_PIN          0           // GPIO 0 (TX)
+#define     RX_PIN          1           // GPIO 1 (RX)
+#define     BAUD_RATE       115200      // Tốc độ Baud (tùy chỉnh theo module)
 
 
 
@@ -39,7 +44,7 @@ Type        Variable        Value       Description
 double      power           =50;        // Công xuất động cơ (%) | 0-100
 bool        direct          =1;         // Hướng đi: 1 - Tiến | 0 - Lùi
 bool        isRight         =1;         // Hướng quay: 1 - Phải | 0 - Trái
-uint8_t     STU             =0;         // Trạng thái đặc biệt: 0 - Nomal | 1 - Boot | 2 - Parking | 3 - unParking.
+uint8_t     STU             =0;         // Trạng thái đặc biệt: 0 - Null | 1 - Đi | 2 - Rẽ (4 bánh) | 3 - Boot | 4 - Parking | 5 - UnParking | 6 - Pause | 7 - Rẽ (2 bánh).
 
 // Giả dữ liệu truyền ra
 bool        out1_e1         =0;         // Động cơ 1 cổng 1
@@ -89,8 +94,7 @@ void check_COM()
 {
     if (uart_is_readable(uart0))
     {
-        uint8_t data = uart_getc(uart0);
-        switch (data)
+        switch (uart_getc(uart0))
         {
             case 0x01:
                 STU = 1;
@@ -110,10 +114,11 @@ void check_COM()
 
 void check_Engine()
 {
+    //@Nghĩa: Viết thêm case dựa vào Description của biến STU. Và Dev phần gọi hàm bên trong các Case đó luôn.
     switch (STU)
     {
     case 1:
-        /* code */
+        /* code */ 
         break;
     case 2:
         /* code */
